@@ -181,6 +181,19 @@ suite('selector', () => {
     assert.equal(selector(state1), 1)
     assert.equal(called, 2)
   })
+  test('computes selector arity', () => {
+    const foo = createSelector(
+      state => state.a,
+      (state, { id }) => id,
+      (a, id) => a[id]
+    )
+    const selector2 = createSelector(
+      foo,
+      state => state.b,
+      (a, b) => a + b
+    )
+    assert.equal(selector2.arity, 2);
+  })
   test('chained selector', () => {
     const selector1 = createSelector(
       state => state.sub,

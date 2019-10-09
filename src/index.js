@@ -78,6 +78,11 @@ export function createSelectorCreator(memoize, ...memoizeOptions) {
       return memoizedResultFunc.apply(null, params)
     })
 
+    selector.arity = dependencies.reduce(
+      (maxLen, dep) => {
+        let len = dep.arity !== undefined ? dep.arity : dep.length;
+        return len > maxLen ? len : maxLen
+      }, 0)
     selector.resultFunc = resultFunc
     selector.dependencies = dependencies
     selector.recomputations = () => recomputations
